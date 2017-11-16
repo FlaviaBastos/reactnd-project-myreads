@@ -8,7 +8,6 @@ class BookShelves extends Component {
   }
 
   state = {
-    bookShelf: '',
     query: ''
   }
 
@@ -17,9 +16,7 @@ class BookShelves extends Component {
   }
 
   changeShelf = (e, book) => {
-    // console.log(book) // will show full object
-    console.log('changiiiing ', book.title , 'to ---> ', e.target.value)
-    this.setState({ bookShelf: e.target.value })
+    this.props.onUpdateBook(book, e.target.value)
   }
 
   render() {

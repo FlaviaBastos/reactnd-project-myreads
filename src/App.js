@@ -21,11 +21,24 @@ class BooksApp extends React.Component {
     })
   }
 
+  updateBook(book, newShelf) {
+    let toUpdate = this.state.books.filter((each) => each.id === book.id)
+    BooksAPI.update(toUpdate[0], newShelf).then((books) => {
+      toUpdate[0].shelf = newShelf
+      this.setState(state => ({
+        books: state.books
+      }))
+    })
+  }
+
   render() {
     return (
       <div>
         <BookShelves
           books={this.state.books}
+          onUpdateBook={(book, newShelf) =>
+            this.updateBook(book, newShelf)
+          }
         />
       </div>
     )
