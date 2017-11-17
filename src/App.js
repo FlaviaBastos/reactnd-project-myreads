@@ -38,6 +38,7 @@ class BooksApp extends React.Component {
           />
         )}/>
         <Route path='/search' component={SearchBooks}/>
+        {/* might need to change Route to render component and pass state so books from search can be separated in shelves */}
       </div>
     )
   }

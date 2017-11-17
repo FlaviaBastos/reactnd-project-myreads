@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends Component {
 
@@ -12,6 +13,21 @@ class SearchBooks extends Component {
   }
 
   render() {
+    const { query } = this.state
+
+    let showingBooks
+    if (query) {
+      BooksAPI.search(query, 20).then((books) => {
+        console.log('Search results: ')
+        showingBooks = books
+        showingBooks.map((book) => console.log('title: ', book.title))
+      })
+    } else {
+      showingBooks = ''
+    }
+
+
+
     return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -28,8 +44,14 @@ class SearchBooks extends Component {
         </div>
       </div>
       <div className="search-books-results">
+        <p>Search results here ###</p>
+        <span>{showingBooks.length}</span>
         <ol className="books-grid">
-          <p>Search results here ###</p>
+          {showingBooks.map((book) => (
+            <li key={book.id}>
+                <p>{book.title}</p>
+            </li>
+          ))}
         </ol>
       </div>
     </div>
