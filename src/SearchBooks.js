@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import PropTypes from 'prop-types'
 
 class SearchBooks extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+  }
 
   state = {
     query: '',
@@ -22,6 +26,10 @@ class SearchBooks extends Component {
     } else {
       this.setState({ showingBooks: [] })
     }
+  }
+
+  changeShelf = (e, book) => {
+    this.props.onUpdateBook(book, e.target.value)
   }
 
   render() {

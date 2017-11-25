@@ -47,11 +47,13 @@ class BookShelves extends Component {
                           <div className="book-title">
                             {book.title}
                           </div>
-                          <div className="book-authors">
-                            {book.authors.map((author) => (
-                              <span key={author}>{author}</span>
-                            ))}
-                          </div>
+                          {book.authors && (
+                            <div className="book-authors">
+                              {book.authors.map((author) => (
+                                <span key={author}>{author}</span>
+                              ))}
+                            </div>
+                          )}
 
                         </div>
                       </li>
@@ -83,11 +85,13 @@ class BookShelves extends Component {
                           <div className="book-title">
                             {book.title}
                           </div>
-                          <div className="book-authors">
-                            {book.authors.map((author) => (
-                              <span key={author}>{author}</span>
-                            ))}
-                          </div>
+                          {book.authors && (
+                            <div className="book-authors">
+                              {book.authors.map((author) => (
+                                <span key={author}>{author}</span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </li>
                     ))}
@@ -118,11 +122,13 @@ class BookShelves extends Component {
                           <div className="book-title">
                             {book.title}
                           </div>
-                          <div className="book-authors">
-                            {book.authors.map((author) => (
-                              <span key={author}>{author}</span>
-                            ))}
-                          </div>
+                          {book.authors && (
+                            <div className="book-authors">
+                              {book.authors.map((author) => (
+                                <span key={author}>{author}</span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </li>
                     ))}

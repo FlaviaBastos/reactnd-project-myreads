@@ -26,6 +26,15 @@ class BooksApp extends React.Component {
     })
   }
 
+  addToShelf(book, shelf) {
+    BooksAPI.update(book, shelf).then((books) => {
+      book.shelf = shelf
+      this.setState(state => ({
+        books: state.books.concat([book])
+      }))
+    })
+  }
+
   render() {
     return (
       <div>
@@ -37,7 +46,14 @@ class BooksApp extends React.Component {
             }
           />
         )}/>
-        <Route path='/search' component={SearchBooks}/>
+        <Route path='/search' render={() => (
+          <SearchBooks
+            books={this.state.books}
+            onUpdateBook={(book, newShelf) =>
+              this.addToShelf(book, newShelf)
+            }
+          />
+        )}/>
       </div>
     )
   }
