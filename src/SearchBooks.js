@@ -10,7 +10,7 @@ class SearchBooks extends Component {
 
   state = {
     query: '',
-    showingBooks: []
+    searchResults: []
   }
 
   updateQuery(query) {
@@ -18,13 +18,13 @@ class SearchBooks extends Component {
     if (query.length > 0) {
       BooksAPI.search(query, 20).then((books) => {
         if (books.error) {
-          this.setState({ showingBooks: [] })
+          this.setState({ searchResults: [] })
         } else {
-          this.setState({ showingBooks: books })
+          this.setState({ searchResults: books })
         }
       })
     } else {
-      this.setState({ showingBooks: [] })
+      this.setState({ searchResults: [] })
     }
   }
 
@@ -33,7 +33,11 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { query, showingBooks } = this.state
+    const { query, searchResults } = this.state
+    const { books } = this.props
+
+    let shelvedBooks, showingBooks, shelfValue
+    shelvedBooks = books
 
     return (
       <div className="search-books">
@@ -50,17 +54,20 @@ class SearchBooks extends Component {
 
           </div>
         </div>
-        {showingBooks && (
+        {searchResults && (
           <div className="search-books-results">
             <ol className="books-grid">
-              {showingBooks.map((book) => (
+              {searchResults.map((book) => (
                 <li key={book.id}>
                   <div className="book">
+                    {shelvedBooks.filter((shelved) => shelved.id === book.id).map((matched) =>
+                      shelfValue = matched.shelf
+                    )}
                     <div className="book-top">
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
                       <div className="book-shelf-changer">
                         <form>
-                          <select value={book.shelf} onChange={(e) => this.changeShelf(e, book)}>
+                          <select defaultValue="none" value={shelfValue} onChange={(e) => this.changeShelf(e, book)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
