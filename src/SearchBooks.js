@@ -13,8 +13,6 @@ class SearchBooks extends Component {
       shelvedBooks: this.props.books,
       value: 'none'
     }
-
-    this.books = this.props.books
   }
 
   static propTypes = {
@@ -40,11 +38,18 @@ class SearchBooks extends Component {
     this.props.onUpdateBook(book, e.target.value)
   }
 
+  getShelf(book) {
+    let bookInShelf = this.state.shelvedBooks
+      .filter((shelved) => shelved.id === book.id)
+    if (bookInShelf.length) {
+      return bookInShelf[0].shelf
+    } else {
+      return 'none'
+    }
+  }
+
   render() {
     const { query, searchResults } = this.state
-    const { books } = this.props
-
-    let showingBooks, shelfValue
 
     return (
       <div className="search-books">
@@ -67,15 +72,12 @@ class SearchBooks extends Component {
               {searchResults.map((book) => (
                 <li key={book.id}>
                   <div className="book">
-                    {this.state.shelvedBooks.filter((shelved) => shelved.id === book.id).map((matched) =>
-                      matched.shelf
-                    )}
                     <div className="book-top">
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
                       <div className="book-shelf-changer">
                         <form>
-                          <select defaultValue="none" onChange={(e) => this.changeShelf(e, book)}>
-                            <option value="none" disabled>Move to...</option>
+                          <select value={this.getShelf(book)} onChange={(e) => this.changeShelf(e, book)}>
+                            <option value="" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
