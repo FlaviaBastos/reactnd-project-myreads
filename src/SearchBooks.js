@@ -15,6 +15,17 @@ class SearchBooks extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('NEST PROPS: ', nextProps)
+    console.log('SHELVED: ', this.state.shelvedBooks)
+    if (this.state.shelvedBooks.length < nextProps.books.length) {
+      console.log('GONNA NEED UPDATE')
+      this.setState({
+        shelvedBooks: nextProps.books
+      });
+    }
+  }
+
   static propTypes = {
     books: PropTypes.array.isRequired,
   }
