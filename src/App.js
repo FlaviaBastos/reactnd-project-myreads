@@ -19,10 +19,7 @@ class BooksApp extends React.Component {
   updateBook(book, newShelf) {
     let toUpdate = this.state.books.filter((each) => each.id === book.id)
     BooksAPI.update(toUpdate[0], newShelf).then((books) => {
-      console.log('BOOKS FROM UPDATE: ', books)
-      console.log('toUpdate[0].shelf: ', toUpdate[0].shelf)
       toUpdate[0].shelf = newShelf
-      console.log('2 toUpdate[0].shelf: ', toUpdate[0].shelf)
       this.setState(state => ({
         books: state.books
       }))
