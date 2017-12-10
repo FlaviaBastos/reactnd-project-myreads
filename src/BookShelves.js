@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import ShelvesUI from './ShelvesUI'
 import PropTypes from 'prop-types'
 
 class BookShelves extends Component {
@@ -8,12 +9,15 @@ class BookShelves extends Component {
     books: PropTypes.array.isRequired,
   }
 
-  changeShelf = (e, book) => {
-    this.props.onUpdateBook(book, e.target.value)
-  }
+  // changeShelf = (e, book) => {
+  //   this.props.onUpdateBook(book, e.target.value)
+  // }
 
   render() {
     const shelves = this.props.books
+    let reading = shelves.filter(book => book.shelf === "currentlyReading")
+    let toRead = shelves.filter(book => book.shelf === "wantToRead")
+    let read = shelves.filter(book => book.shelf === "read")
 
     return (
       <div className="app">
@@ -23,118 +27,30 @@ class BookShelves extends Component {
           </div>
           <div className="list-books-content">
             <div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {shelves.filter(book => book.shelf === "currentlyReading").map(book => (
-                      <li key={book.title}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                            <div className="book-shelf-changer">
-                              <form>
-                                <select value={book.shelf} onChange={(e) => this.changeShelf(e, book)}>
-                                  <option value="none" disabled>Move to...</option>
-                                  <option value="currentlyReading">Currently Reading</option>
-                                  <option value="wantToRead">Want to Read</option>
-                                  <option value="read">Read</option>
-                                  <option value="none">None</option>
-                                </select>
-                              </form>
-                            </div>
-                          </div>
-                          <div className="book-title">
-                            {book.title}
-                          </div>
-                          {book.authors && (
-                            <div className="book-authors">
-                              {book.authors.map((author) => (
-                                <span key={author}>{author}</span>
-                              ))}
-                            </div>
-                          )}
-
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Want to Read</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {shelves.filter(book => book.shelf === "wantToRead").map(book => (
-                      <li key={book.title}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                            <div className="book-shelf-changer">
-                              <form>
-                                <select value={book.shelf} onChange={(e) => this.changeShelf(e, book)}>
-                                  <option value="none" disabled>Move to...</option>
-                                  <option value="currentlyReading">Currently Reading</option>
-                                  <option value="wantToRead">Want to Read</option>
-                                  <option value="read">Read</option>
-                                  <option value="none">None</option>
-                                </select>
-                              </form>
-                            </div>
-                          </div>
-                          <div className="book-title">
-                            {book.title}
-                          </div>
-                          {book.authors && (
-                            <div className="book-authors">
-                              {book.authors.map((author) => (
-                                <span key={author}>{author}</span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
-              <div className="bookshelf">
-                <h2 className="bookshelf-title">Read</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {shelves.filter(book => book.shelf === "read").map(book => (
-                      <li key={book.title}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                            <div className="book-shelf-changer">
-                              <form>
-                                <select value={book.shelf} onChange={(e) => this.changeShelf(e, book)}>
-                                  <option value="none" disabled>Move to...</option>
-                                  <option value="currentlyReading">Currently Reading</option>
-                                  <option value="wantToRead">Want to Read</option>
-                                  <option value="read">Read</option>
-                                  <option value="none">None</option>
-                                </select>
-                              </form>
-                            </div>
-                          </div>
-                          <div className="book-title">
-                            {book.title}
-                          </div>
-                          {book.authors && (
-                            <div className="book-authors">
-                              {book.authors.map((author) => (
-                                <span key={author}>{author}</span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
+              <ShelvesUI
+                shelfTitle='Currently Reading'
+                shelfContent={reading}
+                books={this.props.books}
+                onUpdateBook={(book, newShelf) =>
+                  this.updateBook(book, newShelf)
+                }
+              />
+              <ShelvesUI
+                shelfTitle='Want to Read'
+                shelfContent={toRead}
+                books={this.props.books}
+                onUpdateBook={(book, newShelf) =>
+                  this.updateBook(book, newShelf)
+                }
+              />
+              <ShelvesUI
+                shelfTitle='Read'
+                shelfContent={read}
+                books={this.props.books}
+                onUpdateBook={(book, newShelf) =>
+                  this.updateBook(book, newShelf)
+                }
+              />
             </div>
           </div>
           <div className="open-search">
