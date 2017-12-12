@@ -9,15 +9,17 @@ class BookShelves extends Component {
     books: PropTypes.array.isRequired,
   }
 
-  // changeShelf = (e, book) => {
-  //   this.props.onUpdateBook(book, e.target.value)
-  // }
-
   render() {
     const shelves = this.props.books
     let reading = shelves.filter(book => book.shelf === "currentlyReading")
     let toRead = shelves.filter(book => book.shelf === "wantToRead")
     let read = shelves.filter(book => book.shelf === "read")
+
+    const content = {
+      "Currentlyreading": reading,
+      "Want to Read": toRead,
+      "Read": read
+    }
 
     return (
       <div className="app">
@@ -27,30 +29,16 @@ class BookShelves extends Component {
           </div>
           <div className="list-books-content">
             <div>
-              <ShelvesUI
-                shelfTitle='Currently Reading'
-                shelfContent={reading}
-                books={this.props.books}
-                onUpdateBook={(book, newShelf) =>
-                  this.updateBook(book, newShelf)
-                }
-              />
-              <ShelvesUI
-                shelfTitle='Want to Read'
-                shelfContent={toRead}
-                books={this.props.books}
-                onUpdateBook={(book, newShelf) =>
-                  this.updateBook(book, newShelf)
-                }
-              />
-              <ShelvesUI
-                shelfTitle='Read'
-                shelfContent={read}
-                books={this.props.books}
-                onUpdateBook={(book, newShelf) =>
-                  this.updateBook(book, newShelf)
-                }
-              />
+              {Object.entries(content).map((data) => (
+                <ShelvesUI key={data[0]}
+                  shelfTitle={data[0]}
+                  shelfContent={data[1]}
+                  books={this.props.books}
+                  onUpdateBook={(book, newShelf) =>
+                    this.props.onUpdateBook(book, newShelf)
+                  }
+                />
+              ))}
             </div>
           </div>
           <div className="open-search">

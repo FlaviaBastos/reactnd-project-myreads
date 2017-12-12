@@ -97,13 +97,9 @@ class SearchBooks extends Component {
                     <div className="book-title">
                       {book.title}
                     </div>
-                    {book.authors && (
                       <div className="book-authors">
-                        {book.authors.map((author) => (
-                          <span key={author}>{author}</span>
-                        ))}
+                        {book.authors ? book.authors.join(', '): ''}
                       </div>
-                    )}
                   </div>
                 </li>
               ))}
