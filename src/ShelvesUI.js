@@ -6,7 +6,7 @@ class ShelvesUI extends Component {
     shelfTitle: PropTypes.string.isRequired,
     shelfContent: PropTypes.array.isRequired,
     books: PropTypes.array.isRequired,
-    onUpdateBook: PropTypes.func.isRequired,
+    onUpdateBook: PropTypes.func.isRequired
   }
 
   changeShelf = (e, book) => {
